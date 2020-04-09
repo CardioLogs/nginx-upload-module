@@ -4116,7 +4116,7 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
     upload_ctx->boundary.data[3] = '-'; 
 
     // Add terminating char
-    upload_ctx->boundary.data[upload_ctx->boundary.len] = ' ';
+    upload_ctx->boundary.data[upload_ctx->boundary.len] = '\0';
 
     /*
      * NOTE: first boundary doesn't start with \r\n. Here we
