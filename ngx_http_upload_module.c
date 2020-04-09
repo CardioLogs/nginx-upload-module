@@ -3921,6 +3921,7 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
     u_char                    *boundary_start_ptr, *boundary_end_ptr;
     ngx_atomic_uint_t          boundary;
     ngx_http_upload_loc_conf_t *ulcf;
+    int                       has_quotes = 0;
 
     ulcf = ngx_http_get_module_loc_conf(upload_ctx->request, ngx_http_upload_module);
 
@@ -4088,7 +4089,7 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
         boundary_end_ptr = boundary_start_ptr + strcspn((char*)boundary_start_ptr, " ;\n\r");
 
         if ((boundary_end_ptr - boundary_start_ptr) >= 2 && boundary_start_ptr[0] == '"' && *(boundary_end_ptr - 1) == '"') {
-            *(boundary_end_ptr - 1) = *boundary_end_ptr;
+            has_quotes = 1;
             boundary_start_ptr++;
             boundary_end_ptr--;
         }
@@ -4115,6 +4116,10 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
     upload_ctx->boundary.data[1] = '\n'; 
     upload_ctx->boundary.data[2] = '-'; 
     upload_ctx->boundary.data[3] = '-'; 
+
+    if (has_quotes) {
+        upload_ctx->boundary.data[upload_ctx->boundary.len] = *(boundary_end_ptr);
+    }
 
     /*
      * NOTE: first boundary doesn't start with \r\n. Here we
