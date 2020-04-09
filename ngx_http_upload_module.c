@@ -4088,6 +4088,7 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
         boundary_end_ptr = boundary_start_ptr + strcspn((char*)boundary_start_ptr, " ;\n\r");
 
         if ((boundary_end_ptr - boundary_start_ptr) >= 2 && boundary_start_ptr[0] == '"' && *(boundary_end_ptr - 1) == '"') {
+            *(boundary_end_ptr - 1) = *boundary_end_ptr;
             boundary_start_ptr++;
             boundary_end_ptr--;
         }
@@ -4107,16 +4108,13 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
         return NGX_HTTP_INTERNAL_SERVER_ERROR;
 
     ngx_cpystrn(upload_ctx->boundary.data + 4, boundary_start_ptr,
-        boundary_end_ptr - boundary_start_ptr);
+        boundary_end_ptr - boundary_start_ptr + 1);
     
     // Prepend boundary data by \r\n--
     upload_ctx->boundary.data[0] = '\r'; 
     upload_ctx->boundary.data[1] = '\n'; 
     upload_ctx->boundary.data[2] = '-'; 
     upload_ctx->boundary.data[3] = '-'; 
-
-    // Add terminating char
-    upload_ctx->boundary.data[upload_ctx->boundary.len] = '\0';
 
     /*
      * NOTE: first boundary doesn't start with \r\n. Here we
