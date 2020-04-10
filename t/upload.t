@@ -163,14 +163,11 @@ qr/^(??{'x' x 262144})$/
 Session-ID: 0000000005
 Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
-["POST /upload/
---BOUNDARY\r
+POST /upload/\r\n--BOUNDARY\r
 Content-Disposition: form-data; name="file"; filename="test.txt"\r
 Content-Type: text/plain\r
 \r
-test
---BOUNDARY--\r
-"]
+test\r\n--BOUNDARY--\r
 --- error_code: 200
 --- response_body eval
 qq{upload_content_range = bytes 0-3/4
