@@ -191,14 +191,14 @@ upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/8/0000123458
 Content-Type: multipart/form-data; boundary="BOUNDARY"
 --- request eval
 "POST /upload/
---BOUNDARY\"
+--BOUNDARY
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
 Session-ID: 0000000005\r
 X-Content-Range: bytes 0-3/4\r
 \r
-test\r
---BOUNDARY\"--\r
+testest\r
+--BOUNDARY--\r
 "
 --- error_code: 200
 --- response_body eval
@@ -210,5 +210,5 @@ upload_file_number = 1
 upload_file_size = 4
 upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/8/0000123458
 }
---- upload_file eval
-"test"
+--- upload_file_like eval
+qr/^.*$/
