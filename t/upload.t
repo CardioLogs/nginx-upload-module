@@ -156,3 +156,31 @@ qr/^(??{'x' x 262144})$/
 # (Test::Nginx::UploadModule::http_config adds request time to the end of
 # the access log)
 [qr/[34]\.\d\d\d$/, qr/[34]\.\d\d\d$/]
+
+=== TEST 4: multipart upload
+--- config eval: $::config
+--- more_headers
+X-Content-Range: bytes 0-3/4
+Session-ID: 0000000001
+Content-Type: multipart/form-data; boundary=BOUNDARY
+--- request eval
+qq{POST /upload/
+--BOUNDARY
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+test
+--BOUNDARY--
+}
+--- error_code: 200
+--- response_body eval
+qq{upload_content_range = bytes 0-3/4
+upload_content_type = text/plain
+upload_field_name = file
+upload_file_name = test.txt
+upload_file_number = 1
+upload_file_size = 4
+upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/1/0000000001
+}
+--- upload_file_like eval
+qr/^test$/
