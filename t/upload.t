@@ -5,7 +5,7 @@ use File::Basename qw(dirname);
 
 use lib dirname(__FILE__) . "/lib";
 
-use Test::Nginx::Socket tests => 22;
+use Test::Nginx::Socket tests => 25;
 use Test::Nginx::UploadModule;
 
 
@@ -164,14 +164,13 @@ X-Content-Range: bytes 0-3/4
 Session-ID: 0000000001
 Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
-qq{POST /upload/
---BOUNDARY
+[["POST /upload/\r\n",
+"--BOUNDARY\r\n
 Content-Disposition: form-data; name="file"; filename="test.txt"
 Content-Type: text/plain
 
 test
---BOUNDARY--
-}
+--BOUNDARY--\r\n"]]
 --- error_code: 200
 --- response_body eval
 qq{upload_content_range = bytes 0-3/4
