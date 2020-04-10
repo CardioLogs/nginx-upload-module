@@ -157,7 +157,7 @@ qr/^(??{'x' x 262144})$/
 # the access log)
 [qr/[34]\.\d\d\d$/, qr/[34]\.\d\d\d$/]
 
-=== TEST 4: multipart upload
+=== TEST 5: multipart upload
 --- config eval: $::config
 --- more_headers
 Session-ID: 0000000005
@@ -173,13 +173,12 @@ test\r
 "
 --- error_code: 200
 --- response_body eval
-qq{upload_content_range = bytes 0-3/4
-upload_content_type = text/plain
+qq{upload_content_type = text/plain
 upload_field_name = file
 upload_file_name = test.txt
-upload_file_number = 1
+upload_file_number = 5
 upload_file_size = 4
 upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
 }
 --- upload_file_like eval
-qr/^test$/
+qr/^.*test.*$/
