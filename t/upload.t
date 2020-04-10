@@ -5,7 +5,7 @@ use File::Basename qw(dirname);
 
 use lib dirname(__FILE__) . "/lib";
 
-use Test::Nginx::Socket tests => 26;
+use Test::Nginx::Socket tests => 28;
 use Test::Nginx::UploadModule;
 
 
@@ -157,14 +157,14 @@ qr/^(??{'x' x 262144})$/
 # the access log)
 [qr/[34]\.\d\d\d$/, qr/[34]\.\d\d\d$/]
 
-=== TEST 5: multipart upload with quoted boundary
+=== TEST 5: multipart upload
 --- config eval: $::config
 --- more_headers
-Content-Type: multipart/form-data; boundary="BOUNDARY"
+Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
 "POST /upload/
 --BOUNDARY
-Content-Disposition: form-data; name=file; filename=test.txt\r
+Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
 \r
 test\r
@@ -183,14 +183,14 @@ upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/8/0000123458
 --- upload_file_like eval
 qr/^.*$/
 
-=== TEST 6: multipart upload
+=== TEST 6: multipart upload with quoted boundary and unquoted names
 --- config eval: $::config
 --- more_headers
-Content-Type: multipart/form-data; boundary=BOUNDARY
+Content-Type: multipart/form-data; boundary="BOUNDARY"
 --- request eval
 "POST /upload/
 --BOUNDARY
-Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
+Content-Disposition: form-data; name=file; filename=test.txt\r
 Content-Type: text/plain\r
 \r
 test\r
