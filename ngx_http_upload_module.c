@@ -4087,7 +4087,7 @@ static ngx_int_t upload_parse_request_headers(ngx_http_upload_ctx_t *upload_ctx,
         boundary_start_ptr += sizeof(BOUNDARY_STRING) - 1;
 
         if (*boundary_start_ptr == '"') {
-           boundary_start_ptr++
+           boundary_start_ptr++;
            boundary_end_ptr = strchr(boundary_start_ptr, '"');
         }
         else {
