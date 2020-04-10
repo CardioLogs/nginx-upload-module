@@ -171,7 +171,8 @@ Content-Type: text/plain\r
 test\r
 --BOUNDARY--\r
 "
---- error_code: 200
+--- error_code eval
+[200, 502]
 --- response_body eval
 qq{upload_content_type = text/plain
 upload_field_name = file
