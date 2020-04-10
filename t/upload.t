@@ -166,8 +166,6 @@ Content-Type: multipart/form-data; boundary=BOUNDARY
 --BOUNDARY\r
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
-Session-ID: 0000000005\r
-X-Content-Range: bytes 0-3/4\r
 \r
 test\r
 --BOUNDARY--\r
@@ -194,8 +192,11 @@ Content-Type: multipart/form-data; boundary="BOUNDARY"
 --BOUNDARY
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
-Session-ID: 0000000005\r
-X-Content-Range: bytes 0-3/4\r
+\r
+test\r
+--BOUNDARY
+Content-Disposition: form-data; name=\"file2\"; filename=\"test2.txt\"\r
+Content-Type: text/plain\r
 \r
 testest\r
 --BOUNDARY--\r
