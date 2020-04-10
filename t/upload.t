@@ -181,4 +181,4 @@ upload_file_size = 4
 upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
 }
 --- upload_file_like eval
-qr/^.*test.*$/
+qr/^.*$/
