@@ -78,4 +78,4 @@ install:
   - cd ..
 
 script:
-  - prove -r t
+  - prove -v -r t
