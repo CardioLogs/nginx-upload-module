@@ -160,13 +160,14 @@ qr/^(??{'x' x 262144})$/
 === TEST 5: multipart upload
 --- config eval: $::config
 --- more_headers
+X-Content-Range: bytes 0-3/4
 Session-ID: 0000000005
 Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
 "POST /upload/
 --BOUNDARY\r
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
-Content-Type: text/plain\r
+Content-Type: text/blublu\r
 \r
 test\r
 --BOUNDARY--\r
