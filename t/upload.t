@@ -165,7 +165,7 @@ Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
 "POST /upload/
 --BOUNDARY\r
-Content-Disposition: form-data; name=file; filename=test.txt\r
+Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
 \r
 test\r
@@ -180,5 +180,5 @@ upload_file_number = 5
 upload_file_size = 4
 upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
 }
---- upload_file_like eval
-qr/^.*$/
+--- upload_file eval
+"test"
