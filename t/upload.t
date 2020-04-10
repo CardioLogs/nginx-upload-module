@@ -5,7 +5,7 @@ use File::Basename qw(dirname);
 
 use lib dirname(__FILE__) . "/lib";
 
-use Test::Nginx::Socket tests => 25;
+use Test::Nginx::Socket tests => 26;
 use Test::Nginx::UploadModule;
 
 
@@ -183,7 +183,7 @@ upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/8/0000123458
 --- upload_file_like eval
 qr/^.*$/
 
-=== TEST 6: multipart upload with quoted boundary
+=== TEST 6: multipart upload
 --- config eval: $::config
 --- more_headers
 Content-Type: multipart/form-data; boundary=BOUNDARY
