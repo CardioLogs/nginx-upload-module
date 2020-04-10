@@ -3673,7 +3673,7 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
             filename_start++;
         }
 
-        filename_end = filename_start + strcspn(filename_start, "\"");
+        filename_end = filename_start + strcspn(filename_start, "\";");
 
         // Disabled to support filenames without quotes
         /*
@@ -3717,7 +3717,7 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
         }
 
         if(fieldname_start != filename_start) {
-            fieldname_end = fieldname_start + strcspn(fieldname_start, "\"");
+            fieldname_end = fieldname_start + strcspn(fieldname_start, "\";");
 
             // Disabled to support filenames without quotes
             /*
