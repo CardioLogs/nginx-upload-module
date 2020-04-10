@@ -3669,7 +3669,7 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
         
         filename_start += sizeof(FILENAME_STRING) - 1;
 
-        if (*filename_start == "\"") {
+        if (*filename_start == '\"') {
             filename_start++;
         }
 
@@ -3712,7 +3712,7 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
     if(fieldname_start != 0) {
         fieldname_start += sizeof(FIELDNAME_STRING) - 1;
 
-        if (*fieldname_start == "\"") {
+        if (*fieldname_start == '\"') {
             fieldname_start++;
         }
 
