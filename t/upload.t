@@ -164,7 +164,7 @@ Content-Type: multipart/form-data; boundary="BOUNDARY"
 --- request eval
 "POST /upload/
 --BOUNDARY
-Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
+Content-Disposition: form-data; name=file; filename=test.txt\r
 Content-Type: text/plain\r
 \r
 test\r
