@@ -163,11 +163,14 @@ qr/^(??{'x' x 262144})$/
 Session-ID: 0000000005
 Content-Type: multipart/form-data; boundary=BOUNDARY
 --- request eval
-POST /upload/\r\n--BOUNDARY\r
-Content-Disposition: form-data; name="file"; filename="test.txt"\r
+"POST /upload/
+--BOUNDARY\r
+Content-Disposition: form-data; name=file; filename=test.txt\r
 Content-Type: text/plain\r
 \r
-test\r\n--BOUNDARY--\r
+test\r
+--BOUNDARY--\r
+"
 --- error_code: 200
 --- response_body eval
 qq{upload_content_range = bytes 0-3/4
@@ -176,7 +179,7 @@ upload_field_name = file
 upload_file_name = test.txt
 upload_file_number = 1
 upload_file_size = 4
-upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/1/0000000001
+upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
 }
 --- upload_file_like eval
 qr/^test$/
