@@ -55,8 +55,8 @@ typedef ngx_md5_t MD5_CTX;
 #define X_SESSION_ID_STRING                     "X-Session-ID:"
 #define FORM_DATA_STRING                        "form-data"
 #define ATTACHMENT_STRING                       "attachment"
-#define FILENAME_STRING                         "filename=\""
-#define FIELDNAME_STRING                        "name=\""
+#define FILENAME_STRING                         "filename="
+#define FIELDNAME_STRING                        "name="
 #define BYTES_UNIT_STRING                       "bytes "
 
 #define NGX_UPLOAD_MALFORMED    -11
@@ -3667,15 +3667,22 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
 
     if(filename_start != 0) {
         
-        filename_start += sizeof(FILENAME_STRING)-1;
+        filename_start += sizeof(FILENAME_STRING) - 1;
+
+        if *filename_start == "\"" {
+            filename_start++;
+        }
 
         filename_end = filename_start + strcspn(filename_start, "\"");
 
+        // Disabled to support filenames without quotes
+        /*
         if(*filename_end != '\"') {
             ngx_log_debug0(NGX_LOG_DEBUG_CORE, upload_ctx->log, 0,
                            "malformed filename in part header");
             return NGX_UPLOAD_MALFORMED;
         }
+        */
 
         /*
          * IE sends full path, strip path from filename 
@@ -3703,16 +3710,23 @@ static ngx_int_t upload_parse_content_disposition(ngx_http_upload_ctx_t *upload_
 //    }while((fieldname_start != 0) && (fieldname_start + sizeof(FIELDNAME_STRING) - 1 == filename_start));
 
     if(fieldname_start != 0) {
-        fieldname_start += sizeof(FIELDNAME_STRING)-1;
+        fieldname_start += sizeof(FIELDNAME_STRING) - 1;
+
+        if *fieldname_start == "\"" {
+            fieldname_start++;
+        }
 
         if(fieldname_start != filename_start) {
             fieldname_end = fieldname_start + strcspn(fieldname_start, "\"");
 
+            // Disabled to support filenames without quotes
+            /*
             if(*fieldname_end != '\"') {
                 ngx_log_error(NGX_LOG_ERR, upload_ctx->log, 0,
                                "malformed fieldname in part header");
                 return NGX_UPLOAD_MALFORMED;
             }
+             */
 
             upload_ctx->field_name.len = fieldname_end - fieldname_start;
             upload_ctx->field_name.data = ngx_pcalloc(upload_ctx->request->pool, upload_ctx->field_name.len + 1);
