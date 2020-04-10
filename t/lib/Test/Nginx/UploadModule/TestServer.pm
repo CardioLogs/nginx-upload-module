@@ -106,6 +106,7 @@ sub process_multipart {
 }
 
 sub process_body {
+    print "Blublu";
     my ($self, $client, $req) = @_;
     my $content = $req->content;
     my $content_type = $req->header('Content-Type');
@@ -113,6 +114,8 @@ sub process_body {
     if ($content_type) {
         if ($content_type =~ /multipart\/form\-data; boundary=(.+?)$/i) {
             my $boundary = quotemeta($1);
+	    print "Found boundary:";
+	    print $boundary;
             return $self->process_multipart($content, $boundary);
         }
     }
