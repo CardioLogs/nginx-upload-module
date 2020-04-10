@@ -167,19 +167,22 @@ Content-Type: multipart/form-data; boundary=BOUNDARY
 "POST /upload/
 --BOUNDARY\r
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
-Content-Type: text/blublu\r
+Content-Type: text/plain\r
+Session-ID: 0000000005\r
+X-Content-Range: bytes 0-3/4\r
 \r
 test\r
 --BOUNDARY--\r
 "
 --- error_code: 200
 --- response_body eval
-qq{upload_content_type = text/plain
+qq{upload_content_range = bytes 0-0/0
+upload_content_type = text/plain
 upload_field_name = file
 upload_file_name = test.txt
 upload_file_number = 1
 upload_file_size = 4
-upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
+upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/8/0000123458
 }
 --- upload_file_like eval
 qr/^.*$/
