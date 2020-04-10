@@ -171,15 +171,14 @@ Content-Type: text/plain\r
 test\r
 --BOUNDARY--\r
 "
---- error_code eval
-[200, 502]
+--- error_code: 200
 --- response_body eval
 qq{upload_content_type = text/plain
 upload_field_name = file
 upload_file_name = test.txt
-upload_file_number = 5
+upload_file_number = 1
 upload_file_size = 4
 upload_tmp_path = ${ENV{TEST_NGINX_UPLOAD_PATH}}/store/5/0000000005
 }
---- upload_file eval
-"test"
+--- upload_file_like eval
+qr/^.*$/
