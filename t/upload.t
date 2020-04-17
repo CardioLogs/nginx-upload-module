@@ -160,15 +160,15 @@ qr/^(??{'x' x 262144})$/
 === TEST 5: multipart upload
 --- config eval: $::config
 --- more_headers
-Content-Type: multipart/form-data; boundary=BOUNDARY
+Content-Type: multipart/form-data; boundary=BOUN_DARY
 --- request eval
 "POST /upload/
---BOUNDARY
+--BOUN_DARY
 Content-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r
 Content-Type: text/plain\r
 \r
 test\r
---BOUNDARY--\r
+--BOUN_DARY--\r
 "
 --- error_code: 200
 --- response_body eval
